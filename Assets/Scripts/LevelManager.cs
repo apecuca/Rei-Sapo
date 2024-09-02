@@ -5,52 +5,52 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     [SerializeField] private SO_LevelData levelData;
-    [SerializeField] private float cellSize;
-    private Vector2 gridOrigin;
+    private float cellSize = 1.055f;
+    //private Vector2 gridOrigin = Vector3.zero;
 
     private void OnDrawGizmos()
     {
-        int[] data = levelData.getNormalizedLevelData();
+        Color[] _colorPallete = {
+            Color.white,
+            Color.green,
+            Color.black,
+            Color.cyan,
+            Color.red,
+            Color.yellow,
+            Color.blue,
+            Color.yellow
+        };
+
+        // Data
+        int[,] _data = levelData.getLevelGrid();
         Gizmos.color = Color.white;
 
-        //
-        gridOrigin = transform.position;
-        Gizmos.DrawWireSphere(gridOrigin, 0.25f);
-        gridOrigin.x += cellSize / 2;
-        gridOrigin.y -= cellSize / 2;
-        //
+        // Definir a origem da grid
+        Vector3 _gridOrigin = transform.position;
+        // Desenhar uma esfera nesse ponto
+        Gizmos.DrawWireSphere(_gridOrigin, 0.25f);
+        // Corrigir a origem para desenho das células
+        _gridOrigin.x += cellSize / 2;
+        _gridOrigin.y -= cellSize / 2;
 
-        for (int y = 0; y < levelData.getSize().y; y++)
-        {
-            for (int x = 0; x < levelData.getSize().x; x++)
+        // desenhar
+        // Nestes loop, passa por todas as células
+        // da grid, não importa o tamanho
+        for (int y = 0; y < _data.GetLength(0); y++) {
+            for (int x = 0; x < _data.GetLength(1); x++)
             {
-                Vector2 _cubePos = gridOrigin;
+                // Definir posição
+                Vector2 _cubePos = _gridOrigin;
                 _cubePos.x += cellSize * x;
                 _cubePos.y -= cellSize * y;
-                
-                // trocar cor do cubo aqui;
+
+                // Trocar cor do cubo
+                if (_data[y, x] < _colorPallete.Length)
+                    Gizmos.color = _colorPallete[_data[y, x]];
+
+                // desenhar a cell
                 Gizmos.DrawWireCube(_cubePos, Vector2.one * cellSize);
             }
         }
-
-        /*
-        gridOrigin = Vector2.zero;
-        gridOrigin.x -= (levelData.getSize().x / 2) * cellSize.x;
-        gridOrigin.y += (levelData.getSize().y / 2) * cellSize.y;
-
-        Gizmos.color = Color.white;
-        Gizmos.DrawWireSphere(gridOrigin, 0.5f);
-
-        for (int y = 0; y < levelData.getSize().y; y++) {
-            for (int x = 0; x < levelData.getSize().x; x++)
-            {
-                Vector2 _cubePos = gridOrigin;
-                _cubePos.x += cellSize.x * x;
-                _cubePos.y -= cellSize.y * y;
-
-                Gizmos.DrawWireCube(_cubePos, cellSize);
-            }
-        }
-        */
     }
 }

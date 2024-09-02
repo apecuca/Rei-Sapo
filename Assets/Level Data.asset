@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64f5f671ee9086e4ca55fb9a62a8c8a6, type: 3}
   m_Name: Level Data
   m_EditorClassIdentifier: 
-  size: {x: 5, y: 4}
+  gridSize: {x: 5, y: 4}
   levelData: '01100
 
-    11100
+    11600
 
-    11111
+    11141
 
-    01111'
+    05115'

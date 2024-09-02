@@ -246,7 +246,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 1e535fff1d6ecb1439e50deafe2fe2c2, type: 2}
-  cellSize: 1.06
 --- !u!1 &2101265402
 GameObject:
   m_ObjectHideFlags: 0
