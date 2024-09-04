@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64f5f671ee9086e4ca55fb9a62a8c8a6, type: 3}
-  m_Name: Level Data
+  m_Name: 00_Tutorial1
   m_EditorClassIdentifier: 
   gridSize: {x: 5, y: 4}
+  gridOrigin: {x: -2.64, y: 2.09}
+  levelPrefab: {fileID: 3931237503566506826, guid: 45fb61da7595a9248b9040094bf2146c,
+    type: 3}
+  startingCell: {x: 1, y: 1}
   levelData: '01100
 
-    11600
+    13600
 
-    11141
+    11151
 
-    05115'
+    02112'
