@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    private Transform currentLevelContainer;
+
     // Índice do nível atual, usado ao iniciar
     [SerializeField] private int currentLevelIndex;
     // Array com os SOs (Scriptable Objects) dos níveis
@@ -29,6 +31,8 @@ public class LevelManager : MonoBehaviour
     // do mesmo jeito que a grid dos níveis
     [SerializeField] private GameObject[] gameObjectPrefabs;
 
+    public static LevelManager instance { get; private set; }
+
     // Paleta de cores para debug da grid
     // Presente no OnDrawGizmos (lá em baixo)
     private Color[] _colorPallete = {
@@ -42,9 +46,52 @@ public class LevelManager : MonoBehaviour
             Color.yellow
     };
 
-    // Método da Unity, roda antes do primeiro frame
-    private void Start()
+    private void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (instance != this)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+    }
+
+    // Método da Unity, roda todo frame
+    private void Update()
+    {
+        if (sapo == null) return;
+
+        // Ler os Inputs se o sapo estiver parado
+        if (!sapo.moving)
+            HandleInputs();
+    }
+
+    public void StartNewGame()
+    {
+        StartCoroutine(LoadGame());
+    }
+
+    private IEnumerator LoadGame()
+    {
+        AsyncOperation _newScene = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
+
+        while (!_newScene.isDone)
+            yield return new WaitForEndOfFrame();
+
+        sapo = GameObject.FindGameObjectWithTag("Sapo").GetComponent<Sapo>();
+
+        StartLevel(currentLevelIndex);
+    }
+
+    private void StartLevel(int _index)
+    {
+        // Atualizar index atual
+        currentLevelIndex = _index;
+
         // Iniciar data da grid
         currentLevelGrid = levelsData[currentLevelIndex].getLevelGrid();
 
@@ -55,7 +102,8 @@ public class LevelManager : MonoBehaviour
 
         // Instanciar o level
         currentLevelObject = Instantiate(
-            levelsData[currentLevelIndex].getLevelPrefab());
+            levelsData[currentLevelIndex].getLevelPrefab(),
+            currentLevelContainer);
 
         // Posição do sapo
         sapo.currentCellPos = levelsData[currentLevelIndex].getStartingCell();
@@ -66,14 +114,6 @@ public class LevelManager : MonoBehaviour
 
         // Instanciar os objetos do nível
         SpawnLevelObjects();
-    }
-
-    // Método da Unity, roda todo frame
-    private void Update()
-    {
-        // Ler os Inputs se o sapo estiver parado
-        if (!sapo.moving)
-            HandleInputs();
     }
 
     private void SpawnLevelObjects()
@@ -102,7 +142,7 @@ public class LevelManager : MonoBehaviour
 
                 // Spawnar (instanciar) o objeto em questão
                 Instantiate(gameObjectPrefabs[_currentCellData], 
-                    _objPos, Quaternion.identity);
+                    _objPos, Quaternion.identity, currentLevelContainer);
             }
         }
     }
@@ -246,14 +286,17 @@ public class LevelManager : MonoBehaviour
     // Método para reiniciar cena atual
     private void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine(LoadGame());
     }
 
     // Método chamado quando o sapo entra no portal
     private void OnFinishedLevel()
     {
-        // Escreve no console e reinicia o nível
+        // Escreve no console
         Debug.Log("Finished level!");
+
+        // Aumenta o index de níveis
+        currentLevelIndex = (int)Mathf.Clamp(currentLevelIndex + 1, 0, levelsData.Length - 1);
         RestartLevel();
     }
 

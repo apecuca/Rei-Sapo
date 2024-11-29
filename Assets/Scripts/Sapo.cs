@@ -22,6 +22,11 @@ public class Sapo : MonoBehaviour
     [Header("Para atribuir")]
     [SerializeField] private LevelManager lvlManager;
 
+    private void Awake()
+    {
+        lvlManager = LevelManager.instance;
+    }
+
     // Método da Unity, roda todo frame
     private void Update()
     {
@@ -65,7 +70,8 @@ public class Sapo : MonoBehaviour
         {
             case "Chave":
                 hasKey = true;
-                Destroy(collision.gameObject);
+                collision.GetComponent<Mosca>().StartMosca(this.transform);
+                Debug.Log("Uai");
                 break;
 
             default:
