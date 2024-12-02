@@ -76,6 +76,7 @@ public class LevelManager : MonoBehaviour
 
     public void StartNewGame()
     {
+        currentLevelIndex = 0;
         StartCoroutine(LoadGame());
     }
 
