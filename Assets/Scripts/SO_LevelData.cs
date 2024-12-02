@@ -49,6 +49,7 @@ public class SO_LevelData : ScriptableObject
     public int[,] getLevelGrid()
     {
         // Inicializar array bidimensional vazio
+        // Camadas:
         // 0 = Y
         // 1 = X
         int[,] _data = new int[gridSize.y, gridSize.x];
@@ -56,10 +57,11 @@ public class SO_LevelData : ScriptableObject
         // Controladores do loop
         int _y = 0;
         int _x = 0;
+
         // O motivo de não fazer um nested loop é que
         // o tamanho da string pode não estar de acordo
-        // com o tamanho da grid, por isso, é melhor verificar todos
-        // os caracteres e fazer o controle por fora do loop
+        // com o tamanho da grid, por isso, é melhor 
+        // verificar todos os caracteres
         for (int i = 0; i < levelData.Length; i++)
         {
             // Verificar se o caractere é um número

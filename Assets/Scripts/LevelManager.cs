@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
-    private Transform currentLevelContainer;
-
     // Índice do nível atual, usado ao iniciar
     [SerializeField] private int currentLevelIndex;
     // Array com os SOs (Scriptable Objects) dos níveis
@@ -20,12 +18,12 @@ public class LevelManager : MonoBehaviour
     private int[,] currentLevelGrid = null;
     private GameObject currentLevelObject = null;
 
-    // Headers são usados pra dividir variáveis em
-    // blocos, dentro do Inspector da Unity
-    [Header("Sapo")]
     // Sapo :)
-    [SerializeField] private Sapo sapo;
+    // Variável atribuída ao carregar a cena de jogo
+    private Sapo sapo = null;
 
+    // Headers são usados pra dividir variáveis em
+    // blocos dentro do Inspector da Unity
     [Header("Objetos do jogo")]
     // Array com todos os objetos do jogo, organizados
     // do mesmo jeito que a grid dos níveis
@@ -48,10 +46,16 @@ public class LevelManager : MonoBehaviour
 
     private void Awake()
     {
+        // Atribui a instância estática dessa classe
+        // Caso já tenha uma (que acontece ao voltar pro menu),
+        // a instância extra se destrói
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+
+            // Impede que essa instância seja
+            // destruída ao carregar outra cena
+            DontDestroyOnLoad(this.gameObject);
         }
         else if (instance != this)
         {
@@ -102,8 +106,7 @@ public class LevelManager : MonoBehaviour
 
         // Instanciar o level
         currentLevelObject = Instantiate(
-            levelsData[currentLevelIndex].getLevelPrefab(),
-            currentLevelContainer);
+            levelsData[currentLevelIndex].getLevelPrefab());
 
         // Posição do sapo
         sapo.currentCellPos = levelsData[currentLevelIndex].getStartingCell();
@@ -142,7 +145,7 @@ public class LevelManager : MonoBehaviour
 
                 // Spawnar (instanciar) o objeto em questão
                 Instantiate(gameObjectPrefabs[_currentCellData], 
-                    _objPos, Quaternion.identity, currentLevelContainer);
+                    _objPos, Quaternion.identity);
             }
         }
     }

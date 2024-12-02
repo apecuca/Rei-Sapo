@@ -70,8 +70,7 @@ public class Sapo : MonoBehaviour
         {
             case "Chave":
                 hasKey = true;
-                collision.GetComponent<Mosca>().StartMosca(this.transform);
-                Debug.Log("Uai");
+                collision.GetComponent<Chave>().StartChave(this.transform);
                 break;
 
             default:

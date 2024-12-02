@@ -283,16 +283,18 @@ MonoBehaviour:
   currentLevelIndex: 0
   levelsData:
   - {fileID: 11400000, guid: 1e535fff1d6ecb1439e50deafe2fe2c2, type: 2}
+  - {fileID: 11400000, guid: 09ea845e0c386c94d9ea972555fdd161, type: 2}
+  - {fileID: 11400000, guid: 736794265bb9b7645b17ac0481ef7261, type: 2}
   sapo: {fileID: 0}
   gameObjectPrefabs:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 748522952615355861, guid: 73959d1ab7d7f55488ec20486d4e7c2c, type: 3}
   - {fileID: 7448263524837459778, guid: f05c95a1ed71eeb4abc25b72c05a1a25, type: 3}
-  - {fileID: 0}
+  - {fileID: 8265994678702609619, guid: 24a3bcc41514fea42bff0c211656d9ac, type: 3}
   - {fileID: 5907410346911747812, guid: 9010df883a2897b41846ca01a7e71c8e, type: 3}
   - {fileID: 9054554262767089545, guid: 500f1976c50c8a547bba6bc6cce0c15d, type: 3}
-  - {fileID: 0}
+  - {fileID: 3288570265958981358, guid: 0cef429dfac944a47b907b8a70610856, type: 3}
 --- !u!4 &626686715
 Transform:
   m_ObjectHideFlags: 0
@@ -657,6 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7aa18f0449e1114286f496b8b641553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HUD_pause: {fileID: 0}
 --- !u!1 &1450007702
 GameObject:
   m_ObjectHideFlags: 0

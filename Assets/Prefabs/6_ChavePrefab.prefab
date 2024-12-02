@@ -69,7 +69,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 61ac40b257b3a994f841856ad38b2b6b, type: 3}
   m_Color: {r: 0.9473977, g: 1, b: 0, a: 1}
   m_FlipX: 0
@@ -91,10 +91,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9054554262767089546}
   - component: {fileID: 9054554262767089547}
-  - component: {fileID: 4690403466014834875}
   - component: {fileID: 5699436507085635145}
   m_Layer: 0
-  m_Name: 6_MoscaPrefab
+  m_Name: 6_ChavePrefab
   m_TagString: Chave
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,27 +140,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
---- !u!50 &4690403466014834875
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9054554262767089545}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
 --- !u!114 &5699436507085635145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,6 +152,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f3fbb8e3be5eb54a954263915e46572, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minFollowDist: 0.75
-  moveSpeed: 2.5
-  rb: {fileID: 4690403466014834875}
+  followOffset: {x: 0.4, y: 0.6}
+  followDamp: 5
