@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridSize: {x: 5, y: 4}
   gridOrigin: {x: -2.64, y: 2.09}
-  levelPrefab: {fileID: 3931237503566506826, guid: 45fb61da7595a9248b9040094bf2146c,
+  levelPrefab: {fileID: 3931237503566506826, guid: c804ecdca473131438669034af06a8cd,
     type: 3}
   startingCell: {x: 1, y: 3}
   levelData: '01600

@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
-    // Índice do nível atual, usado ao iniciar
-    [SerializeField] private int currentLevelIndex;
+    // Índice do nível atual, usado para gerenciar
+    // loading de fases
+    private int currentLevelIndex;
     // Array com os SOs (Scriptable Objects) dos níveis
     [SerializeField] private SO_LevelData[] levelsData;
 
-    // Gerenciamento da grid do nível
-    private float cellSize = 1.055f;
-    private Vector2 gridOrigin = Vector3.zero;
-
     // Dados do nível atual
     private int[,] currentLevelGrid = null;
-    private GameObject currentLevelObject = null;
+
+    // Gerenciamento da grid do nível
+    private float cellSize = 1.063f;
+    private Vector2 gridOrigin = Vector3.zero;
 
     // Sapo :)
     // Variável atribuída ao carregar a cena de jogo
@@ -28,6 +29,11 @@ public class LevelManager : MonoBehaviour
     // Array com todos os objetos do jogo, organizados
     // do mesmo jeito que a grid dos níveis
     [SerializeField] private GameObject[] gameObjectPrefabs;
+
+    [Header("Fade")]
+    [SerializeField] private Image fadePanel;
+    [SerializeField] private float fadeDampness;
+    public bool fading { get; private set; }
 
     public static LevelManager instance { get; private set; }
 
@@ -69,27 +75,39 @@ public class LevelManager : MonoBehaviour
     {
         if (sapo == null) return;
 
-        // Ler os Inputs se o sapo estiver parado
-        if (!sapo.moving)
+        // Ler os Inputs se o sapo estiver livre
+        if (!sapo.moving || fading)
             HandleInputs();
     }
 
     public void StartNewGame()
     {
+        if (fading) return;
+
         currentLevelIndex = 0;
         StartCoroutine(LoadGame());
     }
 
     private IEnumerator LoadGame()
     {
+        // Fade in
+        StartCoroutine(FadeIn());
+        while (fading)
+            yield return new WaitForEndOfFrame();
+
+        // Carregar a nova fase em uma ação assíncrona
         AsyncOperation _newScene = SceneManager.LoadSceneAsync(1, LoadSceneMode.Single);
 
+        // Esperar a fase carregar
         while (!_newScene.isDone)
             yield return new WaitForEndOfFrame();
 
+        // Atribuir objetos e iniciar level
         sapo = GameObject.FindGameObjectWithTag("Sapo").GetComponent<Sapo>();
-
         StartLevel(currentLevelIndex);
+
+        // Fade out
+        StartCoroutine(FadeOut());
     }
 
     private void StartLevel(int _index)
@@ -106,8 +124,7 @@ public class LevelManager : MonoBehaviour
         gridOrigin.y -= cellSize / 2;
 
         // Instanciar o level
-        currentLevelObject = Instantiate(
-            levelsData[currentLevelIndex].getLevelPrefab());
+        Instantiate(levelsData[currentLevelIndex].getLevelPrefab());
 
         // Posição do sapo
         sapo.currentCellPos = levelsData[currentLevelIndex].getStartingCell();
@@ -158,13 +175,33 @@ public class LevelManager : MonoBehaviour
         // no frame atual, fazer algo
 
         if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
             MoveSapo(new Vector2Int(1, 0));
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
             MoveSapo(new Vector2Int(-1, 0));
+            return;
+        }
+            
         if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
             MoveSapo(new Vector2Int(0, -1));
+            return;
+        }
+            
         if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
             MoveSapo(new Vector2Int(0, 1));
+            return;
+        }
+
+        // Esses returns são para evitar que dois
+        // inputs sejam acionados no mesmo frame.
+        // Daria pra fazer uma verificação por fora,
+        // mas assim é mais fácil
 
         if (Input.GetKeyDown(KeyCode.R))
             RestartLevel();
@@ -180,7 +217,8 @@ public class LevelManager : MonoBehaviour
 
         // Loop que passa por todas as possíveis 
         // células na direção dada.
-        // Esse loop ficou bem grande kk
+        // Esse loop ficou bem grande por causa
+        // dos comentários kk
         while (!_gotToDestination)
         {
             // Verificar se precisa parar na céula atual
@@ -265,6 +303,8 @@ public class LevelManager : MonoBehaviour
     // em um destino
     public void OnGotToDestination()
     {
+        if (fading) return;
+
         // Info da célula atua
         int _cellData = currentLevelGrid[sapo.currentCellPos.y, sapo.currentCellPos.x];
         
@@ -300,8 +340,83 @@ public class LevelManager : MonoBehaviour
         Debug.Log("Finished level!");
 
         // Aumenta o index de níveis
-        currentLevelIndex = (int)Mathf.Clamp(currentLevelIndex + 1, 0, levelsData.Length - 1);
-        RestartLevel();
+        currentLevelIndex++;
+
+        if (currentLevelIndex == levelsData.Length)
+            OnFinishedGame();
+        else
+            RestartLevel();
+    }
+
+    private void OnFinishedGame()
+    {
+        //SceneManager.LoadScene(2);
+        StartCoroutine(FadeToScene(2));
+        ResetVariables();
+    }
+
+    public void ResetVariables()
+    {
+        currentLevelIndex = 0;
+        currentLevelGrid = null;
+    }
+
+    public void GotoMenu()
+    {
+        StartCoroutine(FadeToScene(0));
+        ResetVariables();
+    }
+
+    private IEnumerator FadeToScene(int _index)
+    {
+        // Fade out
+        StartCoroutine(FadeIn());
+        while (fading)
+            yield return new WaitForEndOfFrame();
+
+        // Carregar a nova fase em uma ação assíncrona
+        AsyncOperation _newScene = SceneManager.LoadSceneAsync(_index, LoadSceneMode.Single);
+
+        // Esperar a fase carregar
+        while (!_newScene.isDone)
+            yield return new WaitForEndOfFrame();
+
+        // Fade in
+        StartCoroutine(FadeOut());
+    }
+
+    private IEnumerator FadeIn()
+    {
+        fading = true;
+
+        while (fadePanel.color.a < 0.95f)
+        {
+            // Lerp entre cor atual e preto
+            fadePanel.color = Color.Lerp(fadePanel.color, Color.black, fadeDampness * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+
+        fadePanel.color = Color.black;
+
+        fading = false;
+    }
+
+    private IEnumerator FadeOut()
+    {
+        fading = true;
+
+        Color _transparent = new Color(0, 0, 0, 0);
+
+        while (fadePanel.color.a > 0.05f)
+        {
+            // Lerp entre cor atual e transparente
+            fadePanel.color = Color.Lerp(fadePanel.color, _transparent, fadeDampness * Time.deltaTime);
+            yield return new WaitForEndOfFrame();
+        }
+
+        fadePanel.color = _transparent;
+
+        fading = false;
     }
 
     // Método da Unity, usado para desenhar

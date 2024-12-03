@@ -14,11 +14,15 @@ public class MenuManager : MonoBehaviour
 
     public void GotoMenu()
     {
-        SceneManager.LoadScene(0);
+        TogglePause();
+        LevelManager.instance.GotoMenu();
     }
 
     public void TogglePause()
     {
+        if (LevelManager.instance.fading) return;
+        if (HUD_pause == null) return;
+
         HUD_pause.SetActive(!HUD_pause.activeInHierarchy);
         Time.timeScale = HUD_pause.activeInHierarchy ? 0.0f : 1.0f;
     }
