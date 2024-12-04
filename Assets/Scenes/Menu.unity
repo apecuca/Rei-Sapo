@@ -358,6 +358,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1e535fff1d6ecb1439e50deafe2fe2c2, type: 2}
   - {fileID: 11400000, guid: 09ea845e0c386c94d9ea972555fdd161, type: 2}
   - {fileID: 11400000, guid: 736794265bb9b7645b17ac0481ef7261, type: 2}
+  - {fileID: 11400000, guid: 87f5c8801190a864cae9cb1d5ccf5cea, type: 2}
   gameObjectPrefabs:
   - {fileID: 0}
   - {fileID: 0}
@@ -369,6 +370,8 @@ MonoBehaviour:
   - {fileID: 3288570265958981358, guid: 0cef429dfac944a47b907b8a70610856, type: 3}
   fadePanel: {fileID: 617813717}
   fadeDampness: 5
+  testingLevel: 0
+  testLevelIndex: 3
 --- !u!4 &626686715
 Transform:
   m_ObjectHideFlags: 0
@@ -925,6 +928,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 2017548622}
+  - {fileID: 2101366418}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1138,4 +1142,82 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2017548621}
+  m_CullTransparentMesh: 0
+--- !u!1 &2101366417
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2101366418}
+  - component: {fileID: 2101366420}
+  - component: {fileID: 2101366419}
+  m_Layer: 5
+  m_Name: Credits
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2101366418
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101366417}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1450007706}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 6.200012, y: 6.9000244}
+  m_SizeDelta: {x: 435.34088, y: 196.27475}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &2101366419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101366417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 6
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: "Cr\xE9ditos:\n\nMarco Bossle Villanova\nGabriele Bonente\nJ\xFAlia Mazzitelli"
+--- !u!222 &2101366420
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101366417}
   m_CullTransparentMesh: 0

@@ -73,6 +73,10 @@ public class Sapo : MonoBehaviour
                 collision.GetComponent<Chave>().StartChave(this.transform);
                 break;
 
+            case "Estrela":
+                Destroy(collision.gameObject);
+                break;
+
             default:
                 Debug.Log(collision.gameObject.tag);
                 break;

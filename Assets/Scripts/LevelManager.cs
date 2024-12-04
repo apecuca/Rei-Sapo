@@ -35,6 +35,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private float fadeDampness;
     public bool fading { get; private set; }
 
+    [Header("Testing")]
+    [SerializeField] private bool testingLevel;
+    [SerializeField] private int testLevelIndex;
+
     public static LevelManager instance { get; private set; }
 
     // Paleta de cores para debug da grid
@@ -76,7 +80,7 @@ public class LevelManager : MonoBehaviour
         if (sapo == null) return;
 
         // Ler os Inputs se o sapo estiver livre
-        if (!sapo.moving || fading)
+        if (!sapo.moving && !fading)
             HandleInputs();
     }
 
@@ -84,7 +88,7 @@ public class LevelManager : MonoBehaviour
     {
         if (fading) return;
 
-        currentLevelIndex = 0;
+        currentLevelIndex = testingLevel ? testLevelIndex : 0;
         StartCoroutine(LoadGame());
     }
 
@@ -120,8 +124,8 @@ public class LevelManager : MonoBehaviour
 
         // Origem da grid
         gridOrigin = levelsData[currentLevelIndex].getGridOrigin();
-        gridOrigin.x += cellSize / 2;
-        gridOrigin.y -= cellSize / 2;
+        //gridOrigin.x += cellSize / 2;
+        //gridOrigin.y -= cellSize / 2;
 
         // Instanciar o level
         Instantiate(levelsData[currentLevelIndex].getLevelPrefab());
@@ -350,7 +354,6 @@ public class LevelManager : MonoBehaviour
 
     private void OnFinishedGame()
     {
-        //SceneManager.LoadScene(2);
         StartCoroutine(FadeToScene(2));
         ResetVariables();
     }

@@ -10,17 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 64f5f671ee9086e4ca55fb9a62a8c8a6, type: 3}
-  m_Name: 00_Tuto_2
+  m_Name: 03_Level
   m_EditorClassIdentifier: 
-  gridSize: {x: 5, y: 4}
-  gridOrigin: {x: -2.1, y: 1.57}
-  levelPrefab: {fileID: 3931237503566506826, guid: 5a151962bffaee04780e1dedbe312ff4,
+  gridSize: {x: 10, y: 7}
+  gridOrigin: {x: -4.65, y: 3.02}
+  levelPrefab: {fileID: 1324870449922987471, guid: 72f1bb94082ac5c48bd29a0635e2a1be,
     type: 3}
-  startingCell: {x: 0, y: 1}
-  levelData: '01100
+  startingCell: {x: 1, y: 1}
+  levelData: '0001111110
 
-    11300
+    0111111111
 
-    51416
+    0111111111
 
-    01111'
+    1111111111
+
+    1111100110
+
+    1111100000
+
+    0111000000'
